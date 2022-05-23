@@ -12,8 +12,8 @@ module.exports = (app)=>{
         const usuarios = require('../models/usuarios')
         //procurar pelo endereço de email
         var procurar = await usuarios.findOne({email:req.body.email})
-        if(procurar){
-            res.send('Email não cadastrado!!')
+        if(!procurar){
+            return res.send('Email não cadastrado!!')
         }
         res.render('atividades.ejs')
     })

@@ -17,7 +17,7 @@ module.exports = (app)=>{
         }).save()
 
         //buscar todas as atividades desse ususário 
-        var buscar = await atividades.find({usuario:dados.id})
+        var buscar = await atividades.find({usuario:dados.id}) //esse find q gera os dados
         //console.log(buscar)
         res.render('atividades.ejs',{nome:dados.nome,id:dados.id,dados:buscar})
     })

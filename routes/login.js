@@ -28,3 +28,8 @@ module.exports = (app)=>{
         res.render('atividades.ejs', {nome:procurar.nome,id:procurar._id,dados:buscar})
     })
 }
+
+//req.body é uma informação que vem pelo corpo do formularip
+//req.query é pela barra de endereço
+//no var procurar faz um find dentro da tabela usuarios, por isso consegue ter acesso ao banco de dados e ao endereço correspondente
+//quando um campo vem de uma collection precisa do _

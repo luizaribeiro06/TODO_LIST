@@ -10,8 +10,8 @@ module.exports = (app)=>{
     var user = await usuarios.findOne({_id:id})
     //buscar todas as atividades desse usuário 
     var abertas = await atividades.find({usuario:id, status:0}).sort({data:1}) 
-    var entregues = await atividades.find({usuario:id, status:0}).sort({data:1})
-    var excluidas = await atividades.find({usuario:id, status:0}).sort({data:1}) //esse find q gera os dados
+    var entregues = await atividades.find({usuario:id, status:1}).sort({data:1})
+    var excluidas = await atividades.find({usuario:id, status:2}).sort({data:1}) //esse find q gera os dados
     //console.log(buscar)
     //res.render('atividades.ejs',{nome:user.nome,id:user._id,dados:abertas, dadosx:excluidas, dadose:entregues}) 
     //abrir a view accordion
@@ -76,8 +76,23 @@ module.exports = (app)=>{
         //redirecionar para  a rota atividades
         res.redirect('/atividades?id='+desfazer.usuario)
     })
+
+
+    //criar a rota para renderizar a view alterar (primeira rota-get onde vai buscar a atividade q quer alterar e exibir)
+    app.get('/alterar', async(req,res)=>{
+        //capturar o id da barra de endereço
+        var id = req.query.id
+        //buscar a atividade q será alterada 
+        var alterar = await atividades.findOne({_id:id})
+        //buscar o nome na collection usuarios
+        var user = await usuarios.findOne({_id:alterar.usuario}) //pq n vai dar certo id:id? pq rlr n vai encontrar o usuario q nao corresponde (ta em atividades), vai conseguir saber o id do usuario colocando 'alterar.usuario'
+        //abrir a view atividades2
+        res.render('alterar.ejs',{nome:user.nome,id:user._id,dados:alterar})
+        
+        })
+    
+
 }
 
-//registro ok, login ok, mas gravou, erro: objeto teve o valor vazio da comparação id model usuarios
-//nos campos tipo hidden estao sem valor, só o nome tem value. logo, achamos o problem
-//qm mandou as informações p o cara atividades é o cara login (Mas ta certo pq no ele taprpcurando e levando id)
+//rota get- buscar a atividade q quer alterar e exibir
+//rota post- gravar ne huur
